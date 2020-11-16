@@ -1,0 +1,218 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello HomeController!{% endblock %}
+
+{% block body %}
+    <style>
+        body{
+            margin:0;
+            color:white;
+            font-family:arial;
+            overflow:hidden;
+        }
+        .header{
+            background-color: #262626;
+            height:10vh;
+            width:100vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .title{
+            font-size: 30px;
+        }
+        .contain_out{
+            height:90vw;
+            width:100vw;
+            display:flex;
+        }
+        .nav{
+            background-color:#282828;
+            width:27vw;
+            height:90vh;
+            border-right:1px solid goldenrod;
+            overflow:auto;
+        }
+        .main{
+            background-color:#303030;
+            width:73vw;
+            height:60vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+        }
+        .response{
+            background-color:#282828;
+            height:30vh;
+            width:73vw;
+            outline: 1px solid goldenrod;
+            overflow: auto;
+        }
+        .form{
+
+            height:30vh;
+            width:30vw;
+            padding:10px;
+        }
+        input[type=text]{
+            background-color:lightgray;
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            box-sizing: border-box;
+            border: 3px solid #282828;
+            -webkit-transition: 0.5s;
+            transition: 0.5s;
+            outline: none;
+            border-radius: 5px;
+        }
+        input[type=text]:focus {
+            border: 3px solid #daa520;
+        }
+        select{
+            cursor:pointer;
+            margin-left: 1vw;
+            margin-bottom: 1vh;
+            border-radius: 2px;
+            border: none;
+            background-color:lightgray;
+
+        }
+        button{
+            align-items: center;
+            height:2vw;
+            color: #fff ;
+            text-transform: uppercase;
+            text-decoration: none;
+            background: #cb9a1d;
+            padding: 20px;
+            border-radius: 5px;
+            display: flex;
+            border: none;
+            transition: all 0.4s ease 0s;
+        }
+        button:hover{
+            cursor:pointer;
+            background: #434343;
+            letter-spacing: 1px;
+            -webkit-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+            -moz-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+            box-shadow: 5px 40px -10px rgba(0,0,0,0.57);
+            transition: all 0.4s ease 0s;
+        }
+        li{
+           display:flex;
+           justify-content: space-between;
+        }
+        .pics{
+            margin-top:-10px;
+        }
+        .contain_in{
+            height:90vw;
+        }
+        .sf-toolbarreset{
+            display:none;
+        }
+        .icon{
+            cursor:pointer;
+        }
+        .under_title{
+            margin-left:1vw;
+        }
+
+    </style>
+
+
+        <div class="header">
+            <div class="title">Client Web HTTP</div>
+        </div>
+        <div class="contain_out">
+            <div class="nav">
+                <h2 class="under_title">Requêtes:</h2>
+                <ul>
+                    {% for query in queries %}
+                        {% if query.method == "GET" %}
+                            <style>
+                                .div_get{
+                                    color:#249c47;
+                                    float:left;
+                                    margin-right:1vw;
+                                }
+                            </style>
+                            <li>
+                                <div>
+                                    <div class="div_get">
+                                        {{ query.method }}
+                                    </div>
+                                    {{ query.url }}
+
+
+                                </div>
+                                <div class="pics {{ query.id }}">
+                                    <img class="icon" src="https://img.icons8.com/metro/26/000000/edit-file.png"/>
+                                    <!--<a href="{# {{ render(controller('App\\Controller\\HomeController::CallDeleteQuerryRepo',{ 'id': query.id })) }} #}">-->
+                                        <img class="icon" src="https://img.icons8.com/windows/32/000000/trash.png"/>
+                                    <!--</a>-->
+                                </div>
+                            </li>
+                        {% endif %}
+
+                        {% if query.method == "POST" %}
+                            <style>
+                                .div_post{
+                                    color:#126cc6;
+                                    float:left;
+                                    margin-right:1vw;
+                                }
+                            </style>
+                            <li>
+                                <div>
+                                    <div class="div_post">
+                                        {{ query.method }}
+                                    </div>
+                                    {{ query.url }}
+
+                                </div>
+                                <div class="pics">
+                                    <img class="icon" src="https://img.icons8.com/metro/26/000000/edit-file.png"/>
+                                   {# <a href="{{ render(controller('App\\Controller\\HomeController::CallDeleteQuerryRepo',{ 'id': query.id })) }}"> #}
+                                        <img class="icon" src="https://img.icons8.com/windows/32/000000/trash.png"/>
+                                    {# </a> #}
+
+                                </div>
+                            </li>
+                        {% endif %}
+                        <br/>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="contain_in">
+                <div class="main">
+                    <div class="form">
+                        {{ form(form) }}
+
+                    </div>
+                </div>
+                <div class="response">
+                    <h2 class="under_title">Réponse:</h2>
+                    <ul>
+                        {% if bool %}
+                            {% for content in contents %}
+                                {% if token == null %}
+                                <li>error : {{  contents.error }}</li>
+                                {% else %}
+                                <li>id: {{ content.id }}</li>
+                                <li>Firstname: {{ content.firstName }}</li>
+                                <li>LastName: {{ content.lastName }}</li>
+                                <br/>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    </ul>
+
+                </div>
+            </div>
+        </div>
+
+{% endblock %}
